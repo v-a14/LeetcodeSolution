@@ -1,17 +1,19 @@
 class Solution {
 public:
     bool isBipartite(vector<vector<int>>&adj, int sv, vector<int>&color){
-        if(color[sv] == -1){
-            color[sv] = 1;
-        }
-        for(auto it:adj[sv]){
-            if(color[it] == -1){
-                color[it] = 1 - color[sv];
-                if(!isBipartite(adj, it, color)){
-                    return false;
+        queue<int>q;
+        q.push(sv);
+        color[sv] = 1;
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            for(auto it:adj[node]){
+                if(color[it] == -1){
+                    color[it] = 1 - color[node];
+                    q.push(it);
+                }else{
+                    if(color[it]==color[node]) return false;
                 }
-            }else{
-                if(color[it] == color[sv]) return false;
             }
         }
         return true;
