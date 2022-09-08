@@ -9,56 +9,38 @@
  */
 class Solution {
 public:
-    map<TreeNode*, TreeNode*>mp;
-    
-    // mapping the nodes to the parent 
-    void preorder(TreeNode *root, TreeNode *prev){
-        if(!root) return;
-        mp[root] = prev;
-        preorder(root->left, root);
-        preorder(root->right, root);
+    bool findPath(TreeNode *root, TreeNode *target, vector<TreeNode*>&path){
+        if(!root) return false;
+        if(root == target){
+            path.push_back(target);
+            return true;
+        }
+        path.push_back(root);
+        bool Left = findPath(root->left, target, path);
+        if(Left) return Left;
+        bool Right = findPath(root->right, target, path);
+        if(Right) return Right;
+        path.pop_back();
+        return false;
     }
-    // TreeNode *findNode(TreeNode *root, TreeNode *target){
-    //     if(!root) return NULL;
-    //     if(root == target) return root;
-    //     TreeNode *Left = findNode(root->left, target);
-    //     if(Left) return Left;
-    //     TreeNode *Right = findNode(root->right, target);
-    //     if(Right) return Right;
-    //     return NULL;
-    // }
+    void traversal(TreeNode *root, TreeNode *block, vector<int>&ans, int k){
+        if(!root || root == block) return;
+        if(k == 0){
+            ans.push_back(root->val);
+            return;
+        }
+        traversal(root->left, block, ans, k-1);
+        traversal(root->right, block, ans, k-1);
+        return;
+    }
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-        preorder(root, NULL);
-        queue<TreeNode*>q;
-        q.push(target);
-        set<TreeNode*>s;
-        s.insert(target);
-        while(!q.empty()){
-            int len = q.size();
-            if(k == 0) break;
-            k--;
-            for(int i=0;i<len;i++){
-                TreeNode *currNode = q.front();
-                q.pop();
-                if(mp[currNode] && s.find(mp[currNode]) == s.end()){
-                    q.push(mp[currNode]);
-                    s.insert(mp[currNode]);
-                }
-                if(currNode->left && s.find(currNode->left) == s.end()){
-                    q.push(currNode->left);
-                    s.insert(currNode->left);
-                }
-                if(currNode->right && s.find(currNode->right) == s.end()){
-                    q.push(currNode->right);
-                    s.insert(currNode->right);
-                }
-            }
-        }
-        vector<int>ans;
-        while(!q.empty()){
-            ans.push_back(q.front()->val);
-            q.pop();
-        }
+       vector<TreeNode*>path;
+       findPath(root, target, path);
+       vector<int>ans;
+       for(int i=path.size()-1;i>=0;i--){
+           traversal(path[i], i == path.size()-1 ? NULL : path[i+1], ans, k--);
+       }
         return ans;
+        
     }
 };
