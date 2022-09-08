@@ -20,20 +20,19 @@ public:
         while(!q.empty()){
             int len = q.size();
             flag = !flag;
-            vector<int>ans;
+            vector<int>ans(len);
+            int idx;
+            if(!flag) idx = len-1;
+            else idx = 0;
             for(int i=0;i<len;i++){
                 TreeNode *currNode = q.front();
                 q.pop();
-                ans.push_back(currNode->val);
+                if(!flag) ans[idx--] = currNode->val;
+                else ans[idx++] = currNode->val;
                 if(currNode->left) q.push(currNode->left);
                 if(currNode->right) q.push(currNode->right);
             }
-            if(!flag){
-                reverse(ans.begin(), ans.end()) ;
-                v.push_back(ans);
-            }else{
-                v.push_back(ans);
-            }
+            v.push_back(ans);
         }
         return v;
     }
