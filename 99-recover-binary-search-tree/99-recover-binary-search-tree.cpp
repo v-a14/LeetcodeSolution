@@ -11,25 +11,28 @@
  */
 class Solution {
 public:
-    void Traverse(TreeNode *root, vector<int>&inorder){
+    TreeNode *prev = NULL, *first = NULL, *middle = NULL, *last = NULL;
+    void helper(TreeNode *root){
         if(!root) return;
-        Traverse(root->left, inorder);
-        inorder.push_back(root->val);
-        Traverse(root->right, inorder);
-        return;
-    }
-    void againTraverse(TreeNode *root, vector<int>&inorder, int &idx){
-        if(!root) return;
-        againTraverse(root->left, inorder, idx);
-        root->val = inorder[idx++];
-        againTraverse(root->right, inorder, idx);
-        return;
+        helper(root->left);
+        if(prev!=NULL && root->val < prev->val){
+            if(first == NULL){
+                first = prev;
+                middle = root;
+            }else{
+                last = root;
+            }
+        }
+        prev = root;
+        helper(root->right);
     }
     void recoverTree(TreeNode* root) {
-        vector<int>inorder;
-        Traverse(root, inorder);
-        sort(inorder.begin(), inorder.end());
-        int idx = 0;
-        againTraverse(root, inorder, idx);
+        helper(root);
+        if(last!=NULL){
+            swap(first->val, last->val);
+        }else{
+            swap(first->val, middle->val);
+        }
+        return;
     }
 };
