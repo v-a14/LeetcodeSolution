@@ -3,15 +3,15 @@
 <p>&nbsp;</p>
 <p><strong>Example 1:</strong></p>
 <img alt="" src="https://assets.leetcode.com/uploads/2019/12/18/q2-e1.png" style="width: 457px; height: 207px;">
-<pre style="position: relative;"><strong>Input:</strong> root1 = [2,1,4], root2 = [1,0,3]
+<pre><strong>Input:</strong> root1 = [2,1,4], root2 = [1,0,3]
 <strong>Output:</strong> [0,1,1,2,3,4]
-<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+</pre>
 
 <p><strong>Example 2:</strong></p>
 <img alt="" src="https://assets.leetcode.com/uploads/2019/12/18/q2-e5-.png" style="width: 352px; height: 197px;">
-<pre style="position: relative;"><strong>Input:</strong> root1 = [1,null,8], root2 = [8,1]
+<pre><strong>Input:</strong> root1 = [1,null,8], root2 = [8,1]
 <strong>Output:</strong> [1,1,8,8]
-<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+</pre>
 
 <p>&nbsp;</p>
 <p><strong>Constraints:</strong></p>
