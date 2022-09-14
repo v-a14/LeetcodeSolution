@@ -21,24 +21,27 @@
  */
 class Solution {
 public:
-    ListNode *findMid(ListNode *head, ListNode *tail){
-        ListNode *slow = head, *fast = head;
-        while(fast!=tail && fast->next!=tail){
+    ListNode *findMid(ListNode *start, ListNode *end){
+        ListNode *slow = start;
+        ListNode *fast = start;
+        while(fast && fast!=end && fast->next!=end){
             slow = slow->next;
             fast = fast->next->next;
         }
         return slow;
     }
-    TreeNode *helper(ListNode *head, ListNode *tail){
-        if(head == tail) return NULL;
-        ListNode *mid = findMid(head, tail);
-        TreeNode *root = new TreeNode(mid->val);
-        root->left = helper(head, mid);
-        root->right = helper(mid->next, tail);
-        return root;
+    TreeNode *helper(ListNode *start, ListNode *end){
+        if(start == end){
+            return NULL;
+        }
+        ListNode *mid = findMid(start, end);
+        TreeNode *newNode = new TreeNode(mid->val);
+        newNode->left = helper(start, mid);
+        newNode->right = helper(mid->next, end);
+        return newNode;
+        
     }
     TreeNode* sortedListToBST(ListNode* head) {
-        ListNode *tail = NULL;
-        return helper(head, tail);
+        return helper(head, NULL);
     }
 };
