@@ -19,22 +19,22 @@ public:
 class Solution {
 public:
     Node* connect(Node* root) {
-        Node *tempRoot = root;
-        while(tempRoot){
-            Node *dummyNode = new Node(0);
-            Node *tempNode = dummyNode;
-            while(tempRoot){
-                if(tempRoot->left){
-                    tempNode->next = tempRoot->left;
-                    tempNode = tempNode->next;
+        Node *curr = root;
+        while(curr){
+            Node *dummy = new Node(0);
+            Node *temp = dummy;
+            while(curr){
+                if(curr->left){
+                    dummy->next = curr->left;
+                    dummy = dummy->next;
                 }
-                if(tempRoot->right){
-                    tempNode->next = tempRoot->right;
-                    tempNode = tempNode->next;
+                if(curr->right){
+                    dummy->next = curr->right;
+                    dummy = dummy->next;
                 }
-                tempRoot = tempRoot->next;
+                curr = curr->next;
             }
-            tempRoot = dummyNode->next;
+            curr = temp->next;
         }
         return root;
     }
