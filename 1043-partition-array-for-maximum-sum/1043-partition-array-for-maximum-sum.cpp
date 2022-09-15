@@ -1,20 +1,19 @@
 class Solution {
 public:
-    int helper(vector<int>&arr, int idx, int k, vector<int>&dp){
-        if(idx == arr.size()) return 0;
-        int maxi = 0, ans = 0;
-        int len = 0;
-        if(dp[idx]!=-1) return dp[idx];
-        for(int i=idx;i<min((int)arr.size(), idx+k);i++){
+    int helper(vector<int>&arr, int i, int k, vector<int>&dp){
+        if(i == arr.size()) return 0;
+        int ans = 0, maxi = 0, len = 0;
+        if(dp[i]!=-1) return dp[i];
+        for(int idx=i; idx<min(i+k, (int)arr.size()); idx++){
+            maxi = max(maxi, arr[idx]);
             len++;
-            maxi = max(maxi, arr[i]);
-            ans = max(ans, len*maxi + helper(arr, i+1, k, dp));
+            ans = max(ans, maxi*len + helper(arr, idx+1, k, dp));
         }
-        return dp[idx] = ans;
+        return dp[i] = ans;
     }
     int maxSumAfterPartitioning(vector<int>& arr, int k) {
         int n = arr.size();
-        vector<int>dp(n, -1);
+        vector<int>dp(n+1, -1);
         return helper(arr, 0, k, dp);
     }
 };
