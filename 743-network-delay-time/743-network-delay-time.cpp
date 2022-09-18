@@ -1,19 +1,33 @@
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& edges, int n, int k) {
-        vector<long long>dis(n+1, INT_MAX);
-        dis[k] = 0;
-        for(int i=0;i<n-1;i++){
-            for(int j=0;j<edges.size();j++){
-                int start = edges[j][0];
-                int end = edges[j][1];
-                if(dis[start] + edges[j][2] < dis[end]){
-                    dis[end] = dis[start] + edges[j][2];
+        // let's try by using djikstra's algorithm 
+        vector<pair<int,int>>adj[n];
+        for(int i=0;i<edges.size();i++){
+            int start = edges[i][0];
+            int end = edges[i][1];
+            int weight = edges[i][2];
+            start--; end--;
+            adj[start].push_back({end, weight});
+        }
+        vector<int>dis(n, INT_MAX);
+        dis[k-1] = 0;
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>>pq;
+        pq.push({0, k-1});
+        while(!pq.empty()){
+            int currNode = pq.top().second;
+            int disTillcurr = pq.top().first;
+            pq.pop();
+            for(auto it:adj[currNode]){
+                if(dis[it.first] > dis[currNode] + it.second){
+                    dis[it.first] = dis[currNode] + it.second;
+                    pq.push({dis[it.first], it.first});
                 }
             }
+            
         }
         int ans = 0;
-        for(int i=1;i<=n;i++) ans = max(ans, (int)dis[i]);
+        for(int i=0;i<n;i++) ans = max(ans, dis[i]);
         return ans == INT_MAX ? -1 : ans;
     }
 };
