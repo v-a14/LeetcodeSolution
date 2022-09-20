@@ -15,15 +15,23 @@ public:
         if(!root) return new TreeNode(val);
         TreeNode *curr = root, *prev = root;
         while(curr){
-            prev = curr;
+            
             if(curr->val > val){
-                curr = curr->left;
+                if(curr->left)
+                    curr = curr->left;
+                else{
+                    curr->left = new TreeNode(val);
+                    break;
+                }
             }else{
-                curr = curr->right;
+                if(curr->right)
+                    curr = curr->right;
+                else {
+                    curr->right = new TreeNode(val);
+                    break;
+                }
             }
         }
-        if(prev->val > val) prev->left = new TreeNode(val);
-        else prev->right = new TreeNode(val);
         return root;
     }
 };
