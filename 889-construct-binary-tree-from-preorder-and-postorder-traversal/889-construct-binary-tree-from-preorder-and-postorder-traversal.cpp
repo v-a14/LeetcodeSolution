@@ -11,16 +11,14 @@
  */
 class Solution {
 public:
-    TreeNode *helper(vector<int>&preorder, int &idx, map<int,int>&postorder, int start, int end){
-        if(start > end) return NULL;
-        if(start == end){
-            return new TreeNode(preorder[idx++]);
-        }
-        TreeNode *root = new TreeNode(preorder[idx++]);
-        int indexInPostorder = postorder[preorder[idx]];
-        root->left = helper(preorder, idx, postorder, start, indexInPostorder);
-        root->right = helper(preorder, idx, postorder, indexInPostorder+1, end-1);
-        return root;
+    TreeNode* helper(map<int,int>&mp, vector<int>&preorder, int &idx, int start, int end){
+        if(start>end) return NULL;
+        if(start==end) return new TreeNode(preorder[idx++]);
+        TreeNode *currNode = new TreeNode(preorder[idx++]);
+        int index = mp[preorder[idx]];
+        currNode->left = helper(mp, preorder, idx, start, index);
+        currNode->right = helper(mp, preorder, idx, index+1, end-1);
+        return currNode;
     }
     TreeNode* constructFromPrePost(vector<int>& preorder, vector<int>& postorder) {
         map<int,int>mp;
@@ -28,7 +26,6 @@ public:
             mp[postorder[i]] = i;
         }
         int idx = 0;
-        int n = preorder.size();
-        return helper(preorder, idx, mp, 0, n-1);
+        return helper(mp, preorder, idx, 0, postorder.size()-1);
     }
 };
