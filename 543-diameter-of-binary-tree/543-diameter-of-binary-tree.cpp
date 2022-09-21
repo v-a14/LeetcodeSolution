@@ -11,16 +11,14 @@
  */
 class Solution {
 public:
-    int helper(TreeNode *root, int &ans){
-        if(!root) return 0;
-        int left = helper(root->left, ans);
-        int right = helper(root->right, ans);
-        ans = max(ans, left+right+1);
-        return max(left, right) + 1;
+    pair<int,int> helper(TreeNode *root){
+        if(!root) return {0,0};
+        pair<int,int>left = helper(root->left);
+        pair<int,int>right = helper(root->right);
+        int ans = max(max(left.second, right.second), left.first+right.first+1);
+        return {max(left.first, right.first) + 1, ans};
     }
     int diameterOfBinaryTree(TreeNode* root) {
-        int ans = 0;
-        helper(root, ans);
-        return ans - 1;
+        return helper(root).second-1;
     }
 };
