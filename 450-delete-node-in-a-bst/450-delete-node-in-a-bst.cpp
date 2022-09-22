@@ -14,35 +14,33 @@ public:
     TreeNode *helper(TreeNode *root){
         if(!root->left) return root->right;
         else if(!root->right) return root->left;
-        TreeNode *RightNode = root->right;
-        TreeNode *LeftNode = root->left;
-        TreeNode *temp = LeftNode;
-        while(temp->right){
-            temp = temp->right;
-        }
-        temp->right = RightNode;
-        return LeftNode;
-        
+        TreeNode *Node = root->left;
+        TreeNode *ansNode = root->left;
+        TreeNode *temp = root->right;
+        while(Node->right) Node = Node->right;
+        Node->right = temp;
+        return ansNode;
     }
     TreeNode* deleteNode(TreeNode* root, int key) {
-        if(!root) return root;
+        if(!root) return NULL;
+        TreeNode *prev = NULL, *curr = root;
         if(root->val == key) return helper(root);
-        TreeNode *dummy = root;
-        while(root){
-            if(root->val > key){
-                if(root->left && root->left->val == key){
-                    root->left = helper(root->left);
+        while(curr){
+            if(curr->val > key){
+                if(curr->left && curr->left->val == key){
+                    curr->left = helper(curr->left);
                 }else{
-                    root = root->left;
+                    curr = curr->left;
                 }
             }else{
-                if(root->right && root->right->val == key){
-                    root->right = helper(root->right);
+                if(curr->right && curr->right->val == key){
+                    curr->right = helper(curr->right);
                 }else{
-                    root = root->right;
+                    curr = curr->right;
                 }
             }
         }
-        return dummy;
+        return root;
+
     }
 };
