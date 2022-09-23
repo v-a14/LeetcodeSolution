@@ -12,23 +12,24 @@
 class Solution {
 public:
     TreeNode *prev = NULL, *first = NULL, *middle = NULL, *last = NULL;
-    void helper(TreeNode *root){
+    void inorder(TreeNode* root){
         if(!root) return;
-        helper(root->left);
-        if(prev!=NULL && root->val < prev->val){
-            if(first == NULL){
-                first = prev;
+        inorder(root->left);
+        if(prev && root->val < prev->val){
+            if(first==NULL){
                 middle = root;
+                first = prev;
             }else{
                 last = root;
             }
         }
         prev = root;
-        helper(root->right);
+        inorder(root->right);
+        return;
     }
     void recoverTree(TreeNode* root) {
-        helper(root);
-        if(last!=NULL){
+        inorder(root);
+        if(last != NULL){
             swap(first->val, last->val);
         }else{
             swap(first->val, middle->val);
