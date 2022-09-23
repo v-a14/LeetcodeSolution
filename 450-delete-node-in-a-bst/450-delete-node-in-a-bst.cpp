@@ -11,20 +11,23 @@
  */
 class Solution {
 public:
-    TreeNode *helper(TreeNode *root){
-        if(!root->left) return root->right;
-        else if(!root->right) return root->left;
-        TreeNode *Node = root->left;
-        TreeNode *ansNode = root->left;
-        TreeNode *temp = root->right;
-        while(Node->right) Node = Node->right;
-        Node->right = temp;
-        return ansNode;
+    TreeNode *helper(TreeNode *curr){
+        // if left or right is null, simply return that is not null 
+        if(!curr->left) return curr->right;
+        else if(!curr->right) return curr->left;
+        
+        TreeNode *currLeft = curr->left;
+        while(currLeft->right) currLeft = currLeft->right;
+        currLeft->right = curr->right;
+        return curr->left;
+        
     }
     TreeNode* deleteNode(TreeNode* root, int key) {
         if(!root) return NULL;
-        TreeNode *prev = NULL, *curr = root;
-        if(root->val == key) return helper(root);
+        if(root->val == key){
+            return helper(root);
+        }
+        TreeNode *curr = root;
         while(curr){
             if(curr->val > key){
                 if(curr->left && curr->left->val == key){
@@ -41,6 +44,5 @@ public:
             }
         }
         return root;
-
     }
 };
