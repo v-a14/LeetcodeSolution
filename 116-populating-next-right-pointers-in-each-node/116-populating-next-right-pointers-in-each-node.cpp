@@ -21,20 +21,20 @@ public:
     Node* connect(Node* root) {
         Node *curr = root;
         while(curr){
-            Node *dummy = new Node(0);
-            Node *temp = dummy;
+            Node *dummyNode = new Node(0);
+            Node *dummyMove = dummyNode;
             while(curr){
                 if(curr->left){
-                    dummy->next = curr->left;
-                    dummy = dummy->next;
+                    dummyMove->next = curr->left;
+                    dummyMove = dummyMove->next;
                 }
                 if(curr->right){
-                    dummy->next = curr->right;
-                    dummy = dummy->next;
+                    dummyMove->next = curr->right;
+                    dummyMove = dummyMove->next;
                 }
                 curr = curr->next;
             }
-            curr = temp->next;
+            curr = dummyNode->next;
         }
         return root;
     }
