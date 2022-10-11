@@ -11,24 +11,20 @@
  */
 class Solution {
 public:
-    int findDepth(TreeNode *root){
+    int maxDepth(TreeNode *root){
         if(!root) return 0;
-        return 1 + max(findDepth(root->left), findDepth(root->right));
+        return 1 + max(maxDepth(root->left), maxDepth(root->right));
     }
-    TreeNode *lca(TreeNode *root, int level){
+    TreeNode *getLCA(TreeNode *root, int level){
         if(!root) return NULL;
-        if(level == 1){
-            return root;
-        }
-        TreeNode *Left = lca(root->left, level-1);
-        TreeNode *Right = lca(root->right, level-1);
-        if(Left && Right) return root;
-        else if(!Left) return Right;
-        else if(!Right) return Left;
-        else return NULL;
+        if(level == 1) return root;
+        TreeNode *left = getLCA(root->left, level-1);
+        TreeNode *right = getLCA(root->right, level-1);
+        if(left && right) return root;
+        else if(!left) return right;
+        else return left;
     }
     TreeNode* lcaDeepestLeaves(TreeNode* root) {
-        int depth = findDepth(root);
-        return lca(root, depth);
+        return getLCA(root, maxDepth(root));
     }
 };
